@@ -39,9 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'measurements',
+    'profiles',
 
     'crispy_forms',
+    'tailwind',
+    'theme',
 ]
+
+TAILWIND_APP_NAME = 'theme'
+
+NPM_BIN_PATH = '/Program Files/nodejs/node_modules/npm/bin/npm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +61,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'geo.urls'
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {
@@ -124,3 +132,6 @@ GEOIP_PATH = BASE_DIR / 'geoip'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
