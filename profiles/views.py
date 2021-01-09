@@ -3,12 +3,21 @@ from django.contrib.auth import get_user_model
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, View
+from django.shortcuts import render
 # Create your views here.
 
 from .forms import RegisterForm
 from .models import Profile
 
 User = get_user_model()
+
+
+def user_profile(request):
+    return render(request, 'profiles/user_profile.html')
+
+
+def account_settings(request):
+    return render(request, 'profiles/settings.html')
 
 
 def activate_user_view(request, code=None, *args, **kwargs):
@@ -20,8 +29,8 @@ def activate_user_view(request, code=None, *args, **kwargs):
                 user_ = profile.user
                 user_.is_active = True
                 user_.save()
-                profile.activated=True
-                profile.activation_key=None
+                profile.activated = True
+                profile.activation_key = None
                 profile.save()
                 return redirect("/login")
     return redirect("/login")
