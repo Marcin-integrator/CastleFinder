@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "postcss {static,geo}/**/*.css -d static/tailwind --watch",
+    "build": "postcss {static,geo}/**/*.css -d static/tailwind --env production"
   },
   "repository": {
     "type": "git",

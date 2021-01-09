@@ -42,11 +42,7 @@ INSTALLED_APPS = [
     'profiles',
 
     'crispy_forms',
-    'tailwind',
-    'theme',
 ]
-
-TAILWIND_APP_NAME = 'theme'
 
 NPM_BIN_PATH = '/Program Files/nodejs/node_modules/npm/bin/npm'
 
@@ -132,6 +128,10 @@ GEOIP_PATH = BASE_DIR / 'geoip'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'

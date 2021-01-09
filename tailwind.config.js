@@ -1,5 +1,5 @@
 module.exports = {
-  purge: [],
+  purge: ['{geo, measurements, profiles}/**/*.{html,py}'],
   theme: {
     extend: {},
   },
