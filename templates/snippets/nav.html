@@ -61,7 +61,8 @@
             src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Font_Awesome_5_brands_fort-awesome.svg"
             alt="Workflow"
           />
-          <div class="space-x-2 hidden lg:flex">
+          <a href="{% url "measurements:calculate-view" %}">
+          <div id="main-logo" class="space-x-2 hidden lg:flex">
             <img
               class="h-8 w-auto"
               src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Font_Awesome_5_brands_fort-awesome.svg"
@@ -69,6 +70,7 @@
             />
             <h1 class="font-serif text-4xl uppercase">Schlossfinder</h1>
           </div>
+          </a>
         </div>
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
@@ -152,10 +154,12 @@
               To: "transform opacity-0 scale-95"
           -->
           <div
+            id="drop-menu"
             class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="user-menu"
+            style="display: none"
           >
             <a
               href="#"
