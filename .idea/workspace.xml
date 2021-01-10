@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:src" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:src" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dbe6868b-aec2-40f4-9d5f-9c3d3f13872c" name="Default Changelist" comment="Added form">
+      <change afterPath="$PROJECT_DIR$/src/static/Java_scripts/user_settings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/static/user_settings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/settings-old.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/settings/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/settings/base.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/settings/local.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/settings/production.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geo/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoip/GeoLite2-City.mmdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoip/GeoLite2-Country.mmdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/templates/measurements/main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/migrations/0002_auto_20201210_1331.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/migrations/0003_remove_profile_following.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/migrations/0004_profile_activation_key.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/shell_commands.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/templates/profiles/settings.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/templates/profiles/snippet/follow_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/templates/profiles/user.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/templates/profiles/user_profile.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/Java_scripts/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/geo/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/static_for_form.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/tailwind/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Team.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/contact.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/snippets/css.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/snippets/form-snippets.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/snippets/js.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/snippets/nav.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/snippets/sidebar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user.html" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Pull.Settings">
+    <option name="BRANCH" value="master" />
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$/src" source="origin/first-branch" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$/src" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="JupyterTrust" id="1fed7a4d-60d4-43ae-8ac2-1f9304804fff" />
+  <component name="ProjectId" id="1mqDpyzTlg2mGRXpxeNiLJlogxZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\SDA_Project\src\static" />
+      <recent name="E:\SDA_Project\src\profiles\templates\profiles" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dbe6868b-aec2-40f4-9d5f-9c3d3f13872c" name="Default Changelist" comment="" />
+      <created>1610212415616</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610212415616</updated>
+      <workItem from="1610212417162" duration="10000" />
+      <workItem from="1610212493746" duration="9541000" />
+      <workItem from="1610224802527" duration="6232000" />
+      <workItem from="1610237101599" duration="599000" />
+      <workItem from="1610265539452" duration="12335000" />
+      <workItem from="1610285639125" duration="1700000" />
+      <workItem from="1610287379147" duration="263000" />
+      <workItem from="1610287648854" duration="9684000" />
+      <workItem from="1610298088666" duration="1274000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added urls to Home, Team, settings, profile and log out button">
+      <created>1610230461817</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1610230461817</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added form">
+      <created>1610281187337</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1610281187337</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Nie wiadomo po co commit">
+      <created>1610286468498</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1610286468498</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added urls to Home, Team, settings, profile and log out button" />
+    <MESSAGE value="Added form" />
+    <MESSAGE value="Nie wiadomo po co commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nie wiadomo po co commit" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="92" y="92" width="3256" height="1216" key="DiffContextDialog" timestamp="1610284143822">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="92" y="92" width="3256" height="1216" key="DiffContextDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1610284143822" />
+    <state x="336" y="122" key="MergeDialog" timestamp="1610286870140">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="336" y="122" key="MergeDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1610286870140" />
+    <state x="1358" y="461" key="MultipleFileMergeDialog" timestamp="1610286870144">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1358" y="461" key="MultipleFileMergeDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1610286870144" />
+    <state x="92" y="92" width="3256" height="1216" key="ShowDiffWithBranchDialog" timestamp="1610286816641">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="92" y="92" width="3256" height="1216" key="ShowDiffWithBranchDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1610286816641" />
+    <state x="1312" y="433" key="Vcs.Push.Dialog.v2" timestamp="1610281203145">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1312" y="433" key="Vcs.Push.Dialog.v2/0.0.3440.1400@0.0.3440.1400" timestamp="1610281203145" />
+    <state x="1537" y="614" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610287279694">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1537" y="614" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.3440.1400@0.0.3440.1400" timestamp="1610287279694" />
+    <state x="1500" y="413" key="git4idea.branch.GitSmartOperationDialog" timestamp="1610287617232">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1500" y="413" key="git4idea.branch.GitSmartOperationDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1610287617232" />
+  </component>
+</project>
