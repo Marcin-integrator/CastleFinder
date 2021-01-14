@@ -1,0 +1,7 @@
+node_modules
+db.sqlite3
+.prettierrc
+manage.pypackage.json
+package-lock.json
+postcss.config.js
+tailwind.config.js
