@@ -14,6 +14,7 @@
 
             Menu open: "hidden", Menu closed: "block"
           -->
+
           <svg
             class="block h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"
@@ -128,6 +129,8 @@
         </button>
 
         <!-- Profile dropdown -->
+
+
         <div class="ml-3 relative">
           <div>
             <button
@@ -138,7 +141,7 @@
               <span class="sr-only">Open user menu</span>
               <img
                 class="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                src="{{ user.profile.image.url }}"
                 alt=""
               />
             </button>
@@ -177,8 +180,16 @@
               >Sign out</a
             >
           </div>
+
         </div>
         {% else %}
+          <button type="submit">
+            <a href="{% url 'register' %}">
+              Register
+            </a>
+
+
+          </button>
               <a
               href="{% url 'login' %}"
               class="bg-red-600 text-white hover:bg-red-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium"

@@ -2,3 +2,8 @@ node_modules
 db.sqlite3
 cache
 .mypy_cache
+.prettierrc
+manage.pypackage.json
+package-lock.json
+postcss.config.js
+tailwind.config.js

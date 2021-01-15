@@ -1,8 +1,30 @@
+
 from django import forms
 
 from django.contrib.auth import get_user_model
+from django.forms import ModelForm
+
+from .models import Profile
 
 User = get_user_model()
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'email']
+        widgets = {
+            'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
+            'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
+        }
+
+
+class UserAvatar(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image']
+        widgets = {
+            'image': forms.FileInput(attrs={'type': "file", 'class': "account-settings-fileinput"})
+        }
 
 
 class RegisterForm(forms.ModelForm):

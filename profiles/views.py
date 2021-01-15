@@ -1,12 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
+from django.core.checks import messages
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, View
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # Create your views here.
 
-from .forms import RegisterForm
+from django.contrib import messages
+
+from .forms import RegisterForm, UserAvatar, UserUpdateForm
 from .models import Profile
 
 User = get_user_model()
@@ -16,8 +21,29 @@ def user_profile(request):
     return render(request, 'profiles/user_profile.html')
 
 
+@login_required
 def account_settings(request):
-    return render(request, 'profiles/settings.html')
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user.profile)
+        p_form = UserAvatar(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Your account has been updated')
+            return redirect(request.path_info)
+    else:
+
+        # u_form = UserUpdateForm(instance=request.user)
+        p_form = UserAvatar(instance=request.user.profile)
+        user = User.objects.get(id=request.user.id)
+        profile = Profile.objects.filter(user=user).get()
+        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email})
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'profiles/settings.html', context)
 
 
 def activate_user_view(request, code=None, *args, **kwargs):
@@ -36,15 +62,28 @@ def activate_user_view(request, code=None, *args, **kwargs):
     return redirect("/login")
 
 
-class RegisterView(CreateView):
-    form_class = RegisterForm
-    template_name = 'registration/register.html'
-    success_url = '/'
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
 
-    def dispatch(self, *args, **kwargs):
-        # if self.request.user.is_authenticated:
-        #     return redirect("/logout")
-        return super(RegisterView, self).dispatch(*args, **kwargs)
+
+# class RegisterView(CreateView):
+#     form_class = RegisterForm
+#     template_name = 'registration/register.html'
+#     success_url = '/'
+#
+#     def dispatch(self, *args, **kwargs):
+#         # if self.request.user.is_authenticated:
+#         #     return redirect("/logout")
+#         return super(RegisterView, self).dispatch(*args, **kwargs)
 
 
 class ProfileFollowToggle(LoginRequiredMixin, View):
