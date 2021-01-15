@@ -3,7 +3,7 @@ from .models import Measurement
 from .forms import MeasurementModelForm
 # from geopy.geocoders import Photon, Nominatim
 from geopy.distance import geodesic
-from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address
+from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address, popup_box
 import folium
 from OSMPythonTools.overpass import overpassQueryBuilder, Overpass
 from OSMPythonTools.nominatim import Nominatim
@@ -60,8 +60,13 @@ def calculate_distance_view(request):
     # initail folium map
     # location=[ger_location.lat(), ger_location.lon()],
     m = folium.Map(zoom_start=8)
+
     for castle_loc in castle_list:
-        folium.Marker([castle_loc.lat(), castle_loc.lon()], tooltip=castle_loc.tags(), popup=location,
+        info_dict = castle_loc.tags()
+        # popup_info = info_dict.values()
+        castle_id = castle_loc.id()
+        folium.Marker([castle_loc.lat(), castle_loc.lon()], tooltip=info_dict.get('name'),
+                     popup=folium.Popup(popup_box(info_dict.get('name'), castle_id), max_width=500),
                       icon=folium.Icon(color='purple', icon='fort-awesome', prefix='fa')).add_to(m)
 
     # location marker
