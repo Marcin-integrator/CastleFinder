@@ -209,6 +209,13 @@
             [id='hoverowski']:hover{
               background-color: transparent;
             }
+
+            [id="'signing"]{
+              position: absolute;
+              right: 100px;
+              width: 35%;
+              bottom: 20px;
+            }
             .header-dark .navbar .action-button, .header-dark .navbar .action-button:active {
               --tw-bg-opacity: 1;
               background:rgba(209, 213, 219, var(--tw-bg-opacity));
@@ -229,8 +236,8 @@
                 <div class="collapse navbar-collapse" id="navcol-1">
                   <form class="form-inline mr-auto" target="_self">
                   </form>
-                  <span id= 'hoverowski' class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><a href="{% url 'login' %}" class="login">Log In</a></span>
-                  <a class="btn btn-light action-button " role="button" href="{% url 'register' %}">Sign Up</a>
+                  <span id= 'hoverowski' class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "><a id="'signing" href="{% url 'login' %}" class="login">Log In</a></span>
+                  <a class="btn btn-light action-button " role="button" href="{% url 'register' %}" >Sign Up</a>
                 </div>
               </nav>
             </div>

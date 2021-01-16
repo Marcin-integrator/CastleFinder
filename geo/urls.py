@@ -13,12 +13,14 @@ from profiles import views as user_views
 
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('measurements.urls', namespace='measurements')),
     path('register/', user_views.register, name='register'),
     re_path(r'^activate/(?P<code>[a-z0-9].*)/$', activate_user_view, name='activate'),
-    path('login/', LoginView.as_view(), name='login'),
+    # path('login/', LoginView.as_view(), name='login'),
+    path('login/', user_views.user_login, name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
     path('password_reset_done/', PasswordResetDoneView.as_view(), name='password_reset_done'),

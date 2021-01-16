@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.core.checks import messages
 from django.http import Http404
@@ -11,7 +11,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib import messages
 
-from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm
+from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm
 from .models import Profile
 
 User = get_user_model()
@@ -62,6 +62,23 @@ def activate_user_view(request, code=None, *args, **kwargs):
     return redirect("/login")
 
 
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'username OR password is incorrect')
+            return redirect('login')
+
+
+    form = UserLoginForm
+    return render(request, 'registration/login.html', {'form': form})
+
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -70,6 +87,8 @@ def register(request):
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}!')
             return redirect('home')
+        else:
+            messages.error(request, 'wrong parameters')
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})

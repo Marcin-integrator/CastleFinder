@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 
@@ -41,11 +41,17 @@ class UserRegisterForm(UserCreationForm):
         attrs={'type': "password", 'class': "form-control", 'name': "password",
                'required': "required"})),
 
+
     class Meta:
         model = User
         fields = UserCreationForm.Meta.fields + ('username', 'email', 'password1', 'password2')
 
 
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'type': "text", 'class': "form-control",
+                                                             'placeholder': "login", 'required': "required"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'type': "password", 'class': "form-control",
+                                                                 'placeholder': "Password", 'required': "required"}))
 
 
 class RegisterForm(forms.ModelForm):
