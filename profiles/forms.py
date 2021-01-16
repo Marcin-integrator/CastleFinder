@@ -1,12 +1,12 @@
-
 from django import forms
-
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 
 from .models import Profile
 
 User = get_user_model()
+
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -27,9 +27,36 @@ class UserAvatar(forms.ModelForm):
         }
 
 
+class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'type': "text", 'class': "form-control", 'name': "username",
+               'required': "required"})),
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={'type': "text", 'class': "form-control", 'name': "email",
+               'required': "required", 'style': "border: black;"})),
+    password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'type': "password", 'class': "form-control", 'name': "password",
+               'required': "required"})),
+    password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'type': "password", 'class': "form-control", 'name': "password",
+               'required': "required"})),
+
+    class Meta:
+        model = User
+        fields = UserCreationForm.Meta.fields + ('username', 'email', 'password1', 'password2')
+
+
+
+
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
+    # fields = ['password1', 'password2']
+    # widgets = {
+    #     'password1': forms.CharField(attrs={
+    #         'label': 'Password', }),
+    #     'password2': forms.CharField(attrs={'label': 'Password confirmation'})
+    # }
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 

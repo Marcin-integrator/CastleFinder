@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% block head_title %}About || {{ block.super }}{% endblock head_title %}
-
+{% load static %}
 {% block content %}
-    <link rel="stylesheet" href="../static/static_for_form.css">
-    <script type="text/javascript" src="{% load static %}"></script>
+    <link rel="stylesheet" href="{% static 'static_for_form.css' %}">
+    <script type="text/javascript" src="{% static 'Java_scripts/form.js' %}"></script>
     <section id="contact-form">
     <h2>Contact with me</h2>
         <form id="contact" name="contact" accept-charset="utf-8">
+            {% csrf_token %}
           <label><span>Name</span><input name="name" type="text" placeholder="Name"/></label>
           <label><span>Email</span><input name="email" type="email" placeholder="Email"/></label>
           <label><span>Message</span><textarea name="message" placeholder="Message"></textarea></label>
-          <input name="submit" type="submit" value="Send"/>
+          <input id="submitcontactform" name="submit" type="submit" value="Send"/>
         </form>
       </section>
 {% endblock content %}}
