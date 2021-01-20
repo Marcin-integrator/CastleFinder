@@ -24,7 +24,7 @@ def calculate_distance_view(request):
     locator = Nominatim() #(user_agent='martin_jr8')
     nominatim = Nominatim()
     #cas = geolocator.geocode(query='germany')
-    areaId = nominatim.query('germany').areaId()
+    areaId = nominatim.query('poland').areaId()
     overpass = Overpass()
 
 
@@ -76,9 +76,9 @@ def calculate_distance_view(request):
     if form.is_valid():
         instance = form.save(commit=False)
         location_ = form.cleaned_data.get('location')
-        location = geolocator.geocode(location_)
+        # location = geolocator.geocode(location_)
         destination_ = form.cleaned_data.get('destination')
-        destination = geolocator.geocode(destination_)
+        # destination = geolocator.geocode(destination_)
 
         # location coordinates
         l_lat = location.latitude

@@ -32,6 +32,7 @@ urlpatterns = [
     path('team/', TemplateView.as_view(template_name='team.html'), name='team'),
     path('your_profile/', include('profiles.urls', namespace='user_profile')),
     path('account_settings/', include('profiles.urls', namespace='account_settings')),
+    path('change_password/', user_views.change_password, name='change_password'),
 
 ]
 

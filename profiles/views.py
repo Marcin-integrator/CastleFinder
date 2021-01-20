@@ -1,17 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import get_user_model, authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model, authenticate, login, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.checks import messages
+from django.forms import forms
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, View
 from django.shortcuts import render, redirect
 # Create your views here.
-
 from django.contrib import messages
 
-from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm
+from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
 from .models import Profile
 
 User = get_user_model()
@@ -21,29 +21,68 @@ def user_profile(request):
     return render(request, 'profiles/user_profile.html')
 
 
+@login_required()
+def change_password(request):
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(data=request.POST, user=request.user)
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, 'Your account has been updated')
+            return redirect(request.path_info)
+        else:
+            messages.error(request, password_form.errors)
+
+    else:
+        password_form = PasswordChangeForm(data=request.POST, user=request.user)
+    context = {
+            'password_form': password_form,
+        }
+
+    return render(request, 'profiles/change_password.html', context)
+
 @login_required
 def account_settings(request):
     if request.method == 'POST':
+
         u_form = UserUpdateForm(request.POST, instance=request.user.profile)
         p_form = UserAvatar(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
+            data = request.POST.copy()
+            country = request.POST.get('country')
+            data['where_do_you_live'] = country
+            new_form = UpdateCountry(data, instance=request.user.profile)
+            if new_form.is_valid():
+                new_form.save()
             u_form.save()
             p_form.save()
-            messages.success(request, 'Your account has been updated')
-            return redirect(request.path_info)
+        else:
+            messages.info(request, 'Not valid')
+        messages.success(request, 'Your account has been updated')
+        return redirect(request.path_info)
     else:
-
         # u_form = UserUpdateForm(instance=request.user)
         p_form = UserAvatar(instance=request.user.profile)
         user = User.objects.get(id=request.user.id)
         profile = Profile.objects.filter(user=user).get()
-        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email})
-    context = {
-        'u_form': u_form,
-        'p_form': p_form
-    }
+        country_form = UpdateCountry(instance=request.user.profile,
+                                     initial={'where_do_you_live': profile.where_do_you_live})
+        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email,
+                                                                'birthday': profile.birthday,
+                                                                'country': profile.where_do_you_live,
+                                                                'email_when_someone_comment': profile.email_when_someone_comment,
+                                                                'email_when_someone_answer': profile.email_when_someone_answer,
+                                                                'email_when_someone_fallow': profile.email_when_someone_fallow,
+                                                                'phone': profile.phone,
+                                                                'website': profile.website,
+                                                                })
+        context = {
+            'u_form': u_form,
+            'p_form': p_form,
+            'country_form': country_form,
+        }
 
-    return render(request, 'profiles/settings.html', context)
+        return render(request, 'profiles/settings.html', context)
 
 
 def activate_user_view(request, code=None, *args, **kwargs):
