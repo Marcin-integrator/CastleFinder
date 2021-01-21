@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.core.mail import send_mail
 from django.urls import reverse
 from .utils import code_generator
+from django_countries.fields import CountryField
+
 
 User = settings.AUTH_USER_MODEL
 
@@ -34,6 +36,15 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, null=True)
     # objects = ProfileManager()
     image = models.FileField(default='static/avatar1.png', upload_to='profile_pics')
+    birthday = models.CharField(max_length=30, blank=True)
+    country = CountryField(default='')
+    where_do_you_live = models.CharField(max_length=100, blank=True)
+    email_when_someone_comment = models.BooleanField(default=False)
+    email_when_someone_answer = models.BooleanField(default=False)
+    email_when_someone_fallow = models.BooleanField(default=False)
+    phone = models.CharField(max_length=100, blank=True)
+    website = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return self.user.username

@@ -20,6 +20,9 @@ from profiles.models import Profile
 def calculate_distance_view(request):
     # initial values
     nominatim = Nominatim()
+
+    #areaId = nominatim.query('poland').areaId()
+
     overpass = Overpass()
     api = Api()
     name = None

@@ -13,5 +13,7 @@ urlpatterns = [
     path('your_profile/', views.user_profile, name='your_profile'),
     path('account_settings/', views.account_settings, name='account_settings'),
     re_path(r'^(?P<username>[\w-]+)/$', ProfileDetailView.as_view(), name='detail'),
+    path('', views.user_login, name='login'),
+    path('change_password', views.change_password, name='change_password')
 
 ]
