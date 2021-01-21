@@ -81,13 +81,8 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['name', 'email', 'location']
-        widgets = {
-            'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
-            'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
-            'location': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
         fields = ['name', 'email', 'birthday', 'email_when_someone_comment', 'email_when_someone_answer',
-                  'email_when_someone_fallow', 'phone', 'website']
+                  'email_when_someone_fallow', 'phone', 'website', 'location']
         widgets = {
             'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
             'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
