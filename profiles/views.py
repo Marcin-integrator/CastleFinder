@@ -37,7 +37,7 @@ def account_settings(request):
         p_form = UserAvatar(instance=request.user.profile)
         user = User.objects.get(id=request.user.id)
         profile = Profile.objects.filter(user=user).get()
-        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email})
+        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email, 'location': profile.location})
     context = {
         'u_form': u_form,
         'p_form': p_form

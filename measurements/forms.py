@@ -1,7 +1,7 @@
 from django import forms
-from .models import Measurement
+from .models import Locations
 
-class MeasurementModelForm(forms.ModelForm):
+class LocationsModelForm(forms.ModelForm):
     class Meta:
-        model = Measurement
-        fields= ('location', 'destination',)
+        model = Locations
+        fields= ('name', 'state', 'review',)

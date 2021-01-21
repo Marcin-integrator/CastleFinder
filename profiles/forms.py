@@ -11,10 +11,11 @@ User = get_user_model()
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'email']
+        fields = ['name', 'email', 'location']
         widgets = {
             'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
             'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
+            'location': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
         }
 
 
