@@ -75,6 +75,7 @@ def account_settings(request):
                                                                 'email_when_someone_fallow': profile.email_when_someone_fallow,
                                                                 'phone': profile.phone,
                                                                 'website': profile.website,
+                                                                'location': profile.location
                                                                 })
         context = {
             'u_form': u_form,

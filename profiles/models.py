@@ -33,6 +33,7 @@ class Profile(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=20, null=True)
     email = models.CharField(max_length=30, null=True)
+    location = models.CharField(max_length=30, null=True)
     # objects = ProfileManager()
     image = models.FileField(default='static/avatar1.png', upload_to='profile_pics')
     birthday = models.CharField(max_length=30, blank=True)
