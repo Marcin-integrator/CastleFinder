@@ -1,5 +1,3 @@
-
-
 <nav class="bg-yellow-500">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
@@ -158,9 +156,10 @@
               From: "transform opacity-100 scale-100"
               To: "transform opacity-0 scale-95"
           -->
+
           <div
             id="drop-menu"
-            class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
+            class="origin-top-right absolute  right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 transition ease-in duration-75"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="user-menu"
@@ -180,6 +179,12 @@
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               role="menuitem"
               >Sign out</a
+            >
+              <a
+              href="{% url 'change_password' %}"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              role="menuitem"
+              >Change password</a
             >
           </div>
 
@@ -207,7 +212,14 @@
             }
 
             [id='hoverowski']:hover{
-              background-color: transparent;
+              background-color: #6c757d;
+            }
+
+            [id="'signing"]{
+              position: absolute;
+              right: 100px;
+              width: 35%;
+              bottom: 20px;
             }
             .header-dark .navbar .action-button, .header-dark .navbar .action-button:active {
               --tw-bg-opacity: 1;
@@ -229,8 +241,8 @@
                 <div class="collapse navbar-collapse" id="navcol-1">
                   <form class="form-inline mr-auto" target="_self">
                   </form>
-                  <span id= 'hoverowski' class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"><a href="{% url 'login' %}" class="login">Log In</a></span>
-                  <a class="btn btn-light action-button " role="button" href="{% url 'register' %}">Sign Up</a>
+                  <span id= 'hoverowski' class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 "><a id="'signing" href="{% url 'login' %}" class="login">Log In</a></span>
+                  <a class="btn btn-light action-button " role="button" href="{% url 'register' %}" >Sign Up</a>
                 </div>
               </nav>
             </div>

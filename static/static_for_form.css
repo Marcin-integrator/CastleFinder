@@ -1,26 +1,4 @@
- h2 {
-   margin: 0;
-   color: #8495a5;
-   font-size: 2.5em;
-   font-weight: 300;
-   position:relative; left:150px;
- }
- #contact-form {
-   max-width: 1208px;
-   margin: 0 auto;
- }
- #contact, label, input[name="submit"] {
-   position: relative;
- }
- label > span, input, textarea, button {
-   box-sizing: border-box;
- }
- label {
-   display: block;
- }
- label > span {
-   display: none;
- }
+
  input, textarea {
    width: 100%;
    padding: 0.5em;
@@ -46,45 +24,22 @@
 [id="submitcontactform"]:hover, button:hover {
    background: #91b36f;
  }
- @media screen and (min-width: 30em) {
-   #contact-form h2 {
-     margin-left: 26.3736%;
-     font-size: 2em;
-     line-height: 1.5;
-   }
-   label > span {
-     vertical-align: top;
-     display: inline-block;
-     width: 26.3736%;
-     padding: 0.5em;
-     border: 1px solid transparent;
-     text-align: right;
-   }
-   input, textarea, button {
-     width: 73.6263%;
-     line-height: 1.5;
-   }
-   textarea {
-     height: 10em;
-   }
-   input[type="submit"], button {
-     margin-left: 26.3736%;
-   }
- }
+
+
  @media screen and (min-width: 48em) {
-   #contact-form {
+   #contact-forms {
      text-align: justify;
      line-height: 0;
    }
-   #contact-form:after {
+   #contact-forms:after {
      content: '';
      display: inline-block;
      width: 100%;
    }
-   #contact-form h2 {
+   #contact-forms h2 {
      margin-left: 17.2661%;
    }
-   #contact-form form, #contact-form aside {
+   #contact-form forms, #contact-form aside {
      vertical-align: top;
      display: inline-block;
      width: 65.4676%;

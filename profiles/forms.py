@@ -1,20 +1,102 @@
+from collections import OrderedDict
+
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, SetPasswordForm
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
-
+from django_countries.widgets import CountrySelectWidget
+from django_countries.fields import CountryField
+from django.core.checks import messages
+from django.utils.translation import ugettext, ugettext_lazy as _
 from .models import Profile
 
 User = get_user_model()
 
 
-class UserUpdateForm(forms.ModelForm):
+# class ChangePassword(forms.Form):
+#     old_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
+#     new_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
+#     reenter_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
+#
+#     def clean(self):
+#         new_password = self.cleaned_data.get('new_password')
+#         reenter_password = self.cleaned_data.get('reenter_password')
+#         old_password = self.cleaned_data.get('old_password')
+#         if old_password != Profile.password:
+#             pass
+#         if new_password != reenter_password:
+#             raise forms.ValidationError('Passwords are not the same')
+#         if new_password == old_password or reenter_password == old_password:
+#             raise forms.ValidationError('Passwords are not the same')
+#             # get the user object and check from old_password list if any one matches with the new password raise error(read whole answer you would know)
+#         return self.cleaned_data  # don't forget this.
+
+# class PasswordChangeForms(SetPasswordForm):
+#     """
+#     A form that lets a user change their password by entering their old
+#     password.
+#     """
+#     error_messages = dict(SetPasswordForm.error_messages, **{
+#         'password_incorrect': _("Your old password was entered incorrectly. "
+#                                 "Please enter it again."),
+#     })
+#     old_password = forms.CharField(label=_("Old password"),
+#                                    widget=forms.PasswordInput)
+#
+#     def clean_old_password(self):
+#         """
+#         Validates that the old_password field is correct.
+#         """
+#         old_password = self.cleaned_data["old_password"]
+#         if not self.user.check_password(old_password):
+#             raise forms.ValidationError(
+#                 self.error_messages['password_incorrect'],
+#                 code='password_incorrect',
+#             )
+#         return old_password
+#
+#
+# PasswordChangeForm.base_fields = OrderedDict(
+#     (k, PasswordChangeForm.base_fields[k])
+#     for k in ['old_password', 'new_password1', 'new_password2']
+# )
+
+
+class UpdateCountry(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['name', 'email']
+        fields = ('where_do_you_live',)
+
+        # def save(self, *args, **kwargs):
+        #     if getattr(self, 'country'):
+        #         where_do_you_live = self.country
+        #         self.relevant_field_name = pytesseract.image_to_string(Image.open(image_file))
+        #     super(Component, self).save(*args, **kwargs)
+
+
+class UserUpdateForm(forms.ModelForm):
+    # OPTIONS = (('1', 'Poland'), ('2', 'Germany'))
+    # country = forms.MultipleChoiceField(choices=OPTIONS)
+    # country = CountryField().formfield(name_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ['name', 'email', 'birthday', 'email_when_someone_comment', 'email_when_someone_answer',
+                  'email_when_someone_fallow', 'phone', 'website']
         widgets = {
             'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
             'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
+            'birthday': forms.TextInput(attrs={'class': "form-control", 'type': "date", 'name': "dateofbirth",
+                                               'id': "dateofbirth"}),
+            'email_when_someone_comment': forms.CheckboxInput(attrs={'type': "checkbox",
+                                                                     'class': "switcher-input"}),
+            'email_when_someone_answer': forms.CheckboxInput(attrs={'type': "checkbox",
+                                                                    'class': "switcher-input"}),
+            'email_when_someone_fallow': forms.CheckboxInput(attrs={'type': "checkbox",
+                                                                    'class': "switcher-input"}),
+            'phone': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
+            'website': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
+
         }
 
 
@@ -46,6 +128,11 @@ class UserRegisterForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ('username', 'email', 'password1', 'password2')
 
 
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'type': "text", 'class': "form-control",
+                                                             'placeholder': "login", 'required': "required"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'type': "password", 'class': "form-control",
+                                                                 'placeholder': "Password", 'required': "required"}))
 
 
 class RegisterForm(forms.ModelForm):
