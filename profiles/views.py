@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model, authenticate, login, update_session_auth_hash
@@ -12,6 +14,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
+    # Updatelast_login
 from .models import Profile
 
 User = get_user_model()
@@ -36,10 +39,11 @@ def change_password(request):
     else:
         password_form = PasswordChangeForm(data=request.POST, user=request.user)
     context = {
-            'password_form': password_form,
-        }
+        'password_form': password_form,
+    }
 
     return render(request, 'profiles/change_password.html', context)
+
 
 @login_required
 def account_settings(request):
@@ -109,11 +113,14 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            # last_login = Profile(last_login=datetime.datetime.now().strftime('%Y-%m-%d, %H:%M:%S'))
+            # user.last_login = datetime.datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
+            # user.save(update_fields=['last_login'])
+
             return redirect('/')
         else:
             messages.info(request, 'username OR password is incorrect')
             return redirect('login')
-
 
     form = UserLoginForm
     return render(request, 'registration/login.html', {'form': form})

@@ -60,6 +60,11 @@ User = get_user_model()
 #     (k, PasswordChangeForm.base_fields[k])
 #     for k in ['old_password', 'new_password1', 'new_password2']
 # )
+#
+# class Updatelast_login(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields = ('last_login',)
 
 
 class UpdateCountry(forms.ModelForm):

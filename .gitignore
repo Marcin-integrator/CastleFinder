@@ -7,3 +7,4 @@ manage.pypackage.json
 package-lock.json
 postcss.config.js
 tailwind.config.js
+local_hidden_variables.py
