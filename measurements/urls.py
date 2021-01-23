@@ -5,5 +5,4 @@ app_name = 'measurements'
 
 urlpatterns = [
     path('', calculate_distance_view, name='calculate-view'),
-    path('home/', calculate_distance_view, name='calculate-view'),
 ]

@@ -77,23 +77,27 @@
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a
-              href='{% url "home" %}'
-              class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+              href="{% url "measurements:calculate-view" %}"
+              class="text-gray-700 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-lg font-bold"
+              style="text-decoration:none;"
               >Home</a
             >
             <a
-              href='{% url "team" %}'
-              class="text-gray-700 hover:bg-gray-300 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
-              >Team</a
+              href='{% url "squad" %}'
+              class="text-gray-700 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-lg font-bold"
+              style="text-decoration:none;"
+              >Squad</a
             >
             <a
               href='{% url "about" %}'
-              class="text-gray-700 hover:bg-gray-300 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+              class="text-gray-700 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-lg font-bold"
+              style="text-decoration:none;"
               >About</a
             >
             <a
               href='{% url "contact" %}'
-              class="text-gray-700 hover:bg-gray-300 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
+              class="text-gray-700 hover:bg-gray-900 hover:text-white px-3 py-2 rounded-md text-lg font-bold"
+              style="text-decoration:none;"
               >Contact</a
             >
           </div>
@@ -103,9 +107,7 @@
       <div
         class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
       >
-      {% if request.user.is_authenticated %} {% comment %}
-      <a href='{% url "restaurants:list" %}'>Restaurants</a>
-      <a href='{% url "menus:list" %}'>Menu Items</a> {% endcomment %}
+      {% if request.user.is_authenticated %}
         <button
           class="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
         >
@@ -190,7 +192,7 @@
 
         </div>
         {% else %}
-        {% load static %}
+        {% comment %} {% load static %}
         <style>
             .header-dark .navbar .navbar-brand {
               font-weight:bold;
@@ -245,6 +247,23 @@
                   <a class="btn btn-light action-button " role="button" href="{% url 'register' %}" >Sign Up</a>
                 </div>
               </nav>
+            </div> {% endcomment %}
+            <div class="hidden sm:block sm:ml-6">
+              <div class="flex space-x-3">
+                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                <a
+                  href="{% url 'login' %}"
+                  class="bg-white text-gray-600 hover:bg-gray-100 hover:text-blue-500 px-3 py-2 rounded-full text-lg font-bold"
+                  style="text-decoration:none;"
+                  >Log In</a
+                >
+                <a
+                  href="{% url 'register' %}"
+                  class="bg-red-600 text-white hover:bg-red-700 hover:text-black px-3 py-2 rounded-full text-lg font-bold"
+                  style="text-decoration:none;"
+                  >Sign Up</a
+                >
+              </div>
             </div>
       {% endif %}
       </div>
