@@ -27,12 +27,19 @@ urlpatterns = [
     path('profile-follow/', ProfileFollowToggle.as_view(), name='follow'),
     # path('u/', include('profiles.urls')),
     path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
+
     path('contact/', TemplateView.as_view(template_name='contact.html'), name='contact'),
+    # path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('squad/', TemplateView.as_view(template_name='squad.html'), name='squad'),
+
+    # path('contact/', user_views.contactform, name='contact'),
     path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
     path('team/', TemplateView.as_view(template_name='team.html'), name='team'),
+
     path('your_profile/', include('profiles.urls', namespace='user_profile')),
     path('account_settings/', include('profiles.urls', namespace='account_settings')),
     path('change_password/', user_views.change_password, name='change_password'),
+    path('', include('mail.urls')),
 
 ]
 
