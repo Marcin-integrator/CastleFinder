@@ -12,9 +12,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+from .local_hidden_variables import SEC_KEY, MAIL_FROM, EMAIL_ADMIN_HOST, EMAIL_HOST_SENDGRID_USER, \
+    SENDGRID_API_KEY
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k4wxnjvy!*syo@92^pip1o#k#2ols(d_@3-z2q3r=n*ch73b3!'
+SECRET_KEY = SEC_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -52,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_countries',
     'widget_tweaks',
-
+    'mail',
     'measurements',
     'profiles',
 
@@ -153,3 +157,13 @@ MEDIA_URL = '/media/'
 
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+
+"""Email Section"""
+
+DEFAULT_FROM_EMAIL = MAIL_FROM
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = EMAIL_ADMIN_HOST
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = EMAIL_HOST_SENDGRID_USER
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY

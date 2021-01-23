@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
@@ -5,7 +7,6 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .utils import code_generator
 from django_countries.fields import CountryField
-
 
 User = settings.AUTH_USER_MODEL
 
@@ -44,7 +45,9 @@ class Profile(models.Model):
     email_when_someone_fallow = models.BooleanField(default=False)
     phone = models.CharField(max_length=100, blank=True)
     website = models.CharField(max_length=100, blank=True)
+    # last_login = models.DateTimeField(max_length=30, blank=True, default=str(datetime.now()))
 
+        # datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
 
     def __str__(self):
         return self.user.username
@@ -71,6 +74,7 @@ class Profile(models.Model):
             # )
             sent_mail = False
             return sent_mail
+
 
 #
 # def post_save_user_reciever(sender, instance, created, *args, **kwargs):

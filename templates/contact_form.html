@@ -105,11 +105,22 @@
     <section id="contact-forms">
 
     <h2 id="possitionh2">Contact with me</h2>
-        <form id="contact" name="contact" accept-charset="utf-8" style="height: 400px">
+        <form id="contact" method="post" name="contact" accept-charset="utf-8" style="height: 400px">
             {% csrf_token %}
-          <label id="nameform"><span>Name</span><input name="name" type="text" placeholder="Name" /></label>
-          <label id="emailform"><span>Email</span><input name="email" type="email" placeholder="Email" /></label>
-          <label id="messageform"><span>Message</span><textarea name="message" placeholder="Message" ></textarea></label>
+          <label id="nameform"><span>Name</span>
+{#              <input name="name" type="text" placeholder="Name" />#}
+              {% load widget_tweaks %}
+              {%  render_field form.subject placeholder="Name" name="name"%}
+          </label>
+          <label id="emailform"><span>Email</span>
+              {% render_field form.from_email name="email" placeholder="Email" %}
+{#              <input name="email" type="email" placeholder="Email" />#}
+          </label>
+          <label id="messageform">
+              <span>Message</span>
+              {% render_field form.message name="message" placeholder="Message" %}
+{#              <textarea name="message" placeholder="Message" ></textarea>#}
+          </label>
           <input id="submitcontactform" name="submit" type="submit" value="Send"/>
         </form>
       </section>
