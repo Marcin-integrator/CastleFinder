@@ -111,6 +111,7 @@
 {#              <input name="name" type="text" placeholder="Name" />#}
               {% load widget_tweaks %}
               {%  render_field form.subject placeholder="Name" name="name"%}
+{#              {{ form.subject }}#}
           </label>
           <label id="emailform"><span>Email</span>
               {% render_field form.from_email name="email" placeholder="Email" %}

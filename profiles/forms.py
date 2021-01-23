@@ -13,6 +13,8 @@ from .models import Profile
 User = get_user_model()
 
 
+
+
 # class ChangePassword(forms.Form):
 #     old_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
 #     new_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})

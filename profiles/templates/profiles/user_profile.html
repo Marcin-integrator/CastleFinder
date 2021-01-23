@@ -104,30 +104,56 @@
                                                     <div class="card-body text-center">
                                                         <h4 class="card-title">Latest Comments</h4>
                                                     </div>
-                                                    <div class="comment-widgets">
-                                                        <!-- Comment Row -->
-                                                        <div class="d-flex flex-row comment-row m-t-0" id='comments'>
-                                                            <div class="p-2"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/KB_Zamek_Krzy%C5%BCacki_w_Bytowie.jpg" alt="user" width="100" class=""></div>
-                                                            <div class="comment-text w-100">
-                                                                <h6 class="font-medium">{{ user.username }}</h6> <span class="m-b-15 d-block">This is awesome website. I would love to comeback again. </span>
-                                                                <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>
-                                                            </div>
-                                                        </div> <!-- Comment Row -->
-                                                        <div class="d-flex flex-row comment-row" id='comments'>
-                                                            <div class="p-2"><img src="https://www.slaskibiznes.pl/images/galbig3/news/1655/zamek-noc-lipiec-005jkobryn_5d415b39787788_20274631.jpg.jpg" alt="user" width="100" class=""></div>
-                                                            <div class="comment-text active w-100">
-                                                                <h6 class="font-medium">{{ user.username }}</h6> <span class="m-b-15 d-block">Thanks bbbootstrap.com for providing such useful snippets. </span>
-                                                                <div class="comment-footer"> <span class="text-muted float-right">May 10, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>
-                                                            </div>
-                                                        </div> <!-- Comment Row -->
-                                                        <div class="d-flex flex-row comment-row" id='comments'>
-                                                            <div class="p-2"><img src="https://sacr3-files.s3-eu-west-1.amazonaws.com/_processed_/csm_Bojnick%25C3%25BD%2520z%25C3%25A1mok%2520Banner%2520039_6c5b483181.jpg" alt="user" width="100" class=""></div>
-                                                            <div class="comment-text w-100">
-                                                                <h6 class="font-medium">{{ user.username }}</h6> <span class="m-b-15 d-block">Great industry leaders are not the real heroes of stock market. </span>
-                                                                <div class="comment-footer"> <span class="text-muted float-right">August 1, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>
-                                                            </div>
+{#                                                    {{ review }}#}
+                                                    {% for location in review %}
+                                                        {% if location.review is not None %}
+
+                                                        <div class="comment-widgets">
+
+                                                            <div class="d-flex flex-row comment-row m-t-0" id='comments'>
+                                                                <div class="p-2">
+                                                                    {{ location.name }}
+
+                                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/KB_Zamek_Krzy%C5%BCacki_w_Bytowie.jpg" alt="user" width="100" class=""></div>
+                                                                <div class="comment-text w-100  container-fluid">
+
+                                                                    <h6 class="font-medium"></h6>
+                                                                    <span class="m-b-15 d-block" style="position: center">{{ location.review }}</span>
+                                                                    <div class="comment-footer position-relative fixed-bottom" style="top: 30px">
+                                                                        <span class="text-muted float-right">{{ location.created }}</span>
+                                                                        <div class="container-fluid col-md-6 position-relative fixed-bottom">
+                                                                        <button type="button" class="btn btn-cyan btn-sm " style="position: center">Edit</button>
+                                                                        <button type="button" class="btn btn-success btn-sm">Publish</button>
+                                                                        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
+                                                            <br>
+    {#                                                                    {% endfor %}#}
+    {#                                                                {% endfor %}#}
                                                         </div>
-                                                    </div> <!-- Card -->
+                                                        {% endif %}
+                                                        {% endfor %}
+
+
+
+
+{#                                                        </div> <!-- Comment Row -->#}
+{#                                                        <div class="d-flex flex-row comment-row" id='comments'>#}
+{#                                                            <div class="p-2"><img src="https://www.slaskibiznes.pl/images/galbig3/news/1655/zamek-noc-lipiec-005jkobryn_5d415b39787788_20274631.jpg.jpg" alt="user" width="100" class=""></div>#}
+{#                                                            <div class="comment-text active w-100">#}
+{#                                                                <h6 class="font-medium">{{ user.username }}</h6> <span class="m-b-15 d-block">Thanks bbbootstrap.com for providing such useful snippets. </span>#}
+{#                                                                <div class="comment-footer"> <span class="text-muted float-right">May 10, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>#}
+{#                                                            </div>#}
+{#                                                        </div> <!-- Comment Row -->#}
+{#                                                        <div class="d-flex flex-row comment-row" id='comments'>#}
+{#                                                            <div class="p-2"><img src="https://sacr3-files.s3-eu-west-1.amazonaws.com/_processed_/csm_Bojnick%25C3%25BD%2520z%25C3%25A1mok%2520Banner%2520039_6c5b483181.jpg" alt="user" width="100" class=""></div>#}
+{#                                                            <div class="comment-text w-100">#}
+{#                                                                <h6 class="font-medium">{{ user.username }}</h6> <span class="m-b-15 d-block">Great industry leaders are not the real heroes of stock market. </span>#}
+{#                                                                <div class="comment-footer"> <span class="text-muted float-right">August 1, 2019</span> <button type="button" class="btn btn-cyan btn-sm">Edit</button> <button type="button" class="btn btn-success btn-sm">Publish</button> <button type="button" class="btn btn-danger btn-sm">Delete</button> </div>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -141,5 +167,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 {% endblock content %}}
