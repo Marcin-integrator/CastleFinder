@@ -14,14 +14,35 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
-    # Updatelast_login
+# Updatelast_login
 from .models import Profile
+from measurements.models import Locations
 
 User = get_user_model()
 
 
-def user_profile(request):
+def castle_review(request):
+    user = User.objects.get(id=request.user.id)
+    locations = Locations.objects.filter(user=user)
+    locations_dict = {}
+    for location in locations:
+        locations_dict[location] = location.review
+
     return render(request, 'profiles/user_profile.html')
+
+
+def user_profile(request):
+    user = User.objects.get(id=request.user.id)
+    locations = Locations.objects.filter(user=user)
+    locations_dict = []
+    for location in locations:
+        locations_dict.append((location.name, location.review))
+
+    review_form = {
+        'review': locations,
+    }
+
+    return render(request, 'profiles/user_profile.html', review_form)
 
 
 @login_required()
