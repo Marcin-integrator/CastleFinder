@@ -1,20 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Locations
+# from .models import Locations
 from .forms import LocationsModelForm
-from geopy.geocoders import Photon as Nom
-from geopy.distance import geodesic
+from geopy.geocoders import Photon
+# from geopy.distance import geodesic
 from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address, popup_box
 import folium
 from OSMPythonTools.overpass import overpassQueryBuilder, Overpass
 from OSMPythonTools.nominatim import Nominatim
 from OSMPythonTools.api import Api
-from django.views.decorators.csrf import csrf_exempt
 import json
-#from django import template
 from profiles.models import Profile
-
-#register = template.Library()
 
 
 def calculate_distance_view(request):
@@ -28,14 +24,11 @@ def calculate_distance_view(request):
     name = None
     review = None
     state = None
-    loc_form = LocationsModelForm(request.POST or None)
 
     country = nominatim.query('germany')
 
 
-    # obj = get_object_or_404(Locations, id=1)
-
-    locator = Nom() #(user_agent='martin_jr8')
+    locator = Photon() #(user_agent='martin_jr8')
     areaId = country.areaId()
     names_query = country.toJSON()
     country_details = names_query[0]
@@ -51,17 +44,6 @@ def calculate_distance_view(request):
     for castle in castle_list:
         castle_infos.append(castle.tags())
 
-
-    # ip_ = get_ip_address(request)
-    # print(ip_)
-    # ip = '72.14.207.99'
-    # country, city, lat, lon = get_geo(ip)
-    # location = geolocator.geocode(city)
-
-    # location coordinates
-    # l_lat = lat
-    # l_lon = lon
-    # pointA = (l_lat, l_lon)
 
     # initail folium map
     m = folium.Map(location=[country_coor_lat, country_coor_lon], zoom_start=6)
@@ -90,50 +72,18 @@ def calculate_distance_view(request):
                       icon=folium.Icon(color='blue', icon='home', prefix='fa')).add_to(m)
 
 
-
-        # # location coordinates
-        # l_lat = location.latitude
-        # l_lon = location.longitude
-        # pointA = (l_lat, l_lon)
-
-        # # destination coordinates
-        # d_lat = destination.latitude
-        # d_lon = destination.longitude
-        # pointB = (d_lat, d_lon)
-
-        # # distance calculation
-        # distance = round(geodesic(pointA, pointB).km, 2)
-
-        # # folium map modification
-        # m = folium.Map(location=get_center_coordinates(l_lat, l_lon, d_lat, d_lon), zoom_start=get_zoom(distance))
-        # # location marker
-        # folium.Marker([l_lat, l_lon], tooltip='click here for more', popup=location,
-        #               icon=folium.Icon(color='purple')).add_to(m)
-        # # destination marker
-        # folium.Marker([d_lat, d_lon], tooltip='click here for more', popup=destination,
-        #               icon=folium.Icon(color='red', icon='cloud')).add_to(m)
-
-        # # the line
-        # line = folium.PolyLine(locations=[pointA, pointB], weight=2, color='blue')
-        # m.add_child(line)
-
-
-
     if request.method == 'GET' and request.is_ajax():
         castle_id = request.GET.get('castle_id')
         castle_data = api.query(f'node/{castle_id}')
         castle_details = castle_data.tags()
-        print(castle_details['name'])
-        loc_form = LocationsModelForm(instance=request.user, initial={"name": castle_details['name']})
-        print(loc_form)
 
 
-        if request.user.is_authenticated and user.location != None:
-            castle_lat = castle_data.lat()
-            castle_lon = castle_data.lon()
-            castle_point = (castle_lat, castle_lon)
-            distance = round(geodesic(loc_point, castle_point).km, 2)
-            castle_details["distance"] = distance
+        # if request.user.is_authenticated and user.location != None:
+        #     castle_lat = castle_data.lat()
+        #     castle_lon = castle_data.lon()
+        #     castle_point = (castle_lat, castle_lon)
+        #     distance = round(geodesic(loc_point, castle_point).km, 2)
+        #     castle_details["distance"] = distance
 
             # line = folium.PolyLine(locations=[loc_point, castle_point], weight=2, color='blue')
             # m.add_child(line)
@@ -142,18 +92,21 @@ def calculate_distance_view(request):
 
         return HttpResponse(json.dumps(castle_details), content_type="application/json") 
 
-    if request.user.is_authenticated and loc_form.is_valid():
-        instance = loc_form.save(commit=False)
-        name = loc_form.cleaned_data.get('name')
-        review = loc_form.cleaned_data.get('review')
-        state = loc_form.cleaned_data.get('state')
 
+    if request.user.is_authenticated and request.method == 'POST' and request.is_ajax():
+        castleName = request.POST.get('castleName')
+        review = request.POST.get('review')
+        state = request.POST.get('state')
+        user = request.user
+        form = LocationsModelForm()
+        form.save(user, castleName, review, state)
+
+        folium.Marker([52.352, 6.22], tooltip='Your Location', popup=location,
+                      icon=folium.Icon(color='green', icon='home', prefix='fa')).add_to(m)  
+
+        # return render(request, 'measurements/main.html')  
         
-        instance.name = name
-        instance.review = review
-        instance.state = state
-        instance.user = request.user
-        instance.save()
+        # return HttpResponse(request) 
     
 
     m = m._repr_html_()
@@ -162,7 +115,6 @@ def calculate_distance_view(request):
         'name': name,
         'review': review,
         'state': state,
-        'form': loc_form,
         'map': m,
         'castles': country_coor_lat,
         # 'ops' : border_objects

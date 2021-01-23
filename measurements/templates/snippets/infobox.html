@@ -31,15 +31,17 @@
       </div>
       {% if request.user.is_authenticated %}
       <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-        <dt class="text-lg font-medium text-gray-500">Catalog</dt>
-        <fieldset>
+        <dt class="text-lg font-medium text-gray-500">Your collection</dt>
+        <fieldset id="radio">
           <div class="mt-3 space-y-2">
             <div class="flex items-center">
               <input
                 id="been"
                 name="current-state"
                 type="radio"
+                value="Been"
                 class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                onClick="showReviewBox()"
               />
               <label
                 for="been"
@@ -53,7 +55,9 @@
                 id="wish"
                 name="current-state"
                 type="radio"
+                value="Wishlist"
                 class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                onClick="hideReviewBox()"
               />
               <label
                 for="wish"
@@ -67,7 +71,9 @@
                 id="nope"
                 name="current-state"
                 type="radio"
+                value="Nope"
                 class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                onClick="hideReviewBox()"
               />
               <label
                 for="nope"
@@ -79,12 +85,16 @@
           </div>
         </fieldset>
       </div>
-      <div class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+      <div
+        class="bg-gray-50 px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+        id="review-area"
+        style="display: none"
+      >
         <dt class="text-lg font-medium text-gray-500">Add Review</dt>
         <div class="mt-1 col-span-2">
           <textarea
-            id="about"
-            name="about"
+            id="review"
+            name="review"
             rows="5"
             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="Tell us something about this place..."
@@ -101,6 +111,7 @@
         </button>
         <button
           type="button"
+          id="submit-btn"
           class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
           Submit
