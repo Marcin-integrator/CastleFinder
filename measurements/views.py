@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
 # from .models import Locations
 from .forms import LocationsModelForm
 from geopy.geocoders import Photon
@@ -104,6 +104,14 @@ def calculate_distance_view(request):
         folium.Marker([52.352, 6.22], tooltip='Your Location', popup=location,
                       icon=folium.Icon(color='green', icon='home', prefix='fa')).add_to(m)  
 
+        # m = m._repr_html_()  
+
+        # return redirect('/')
+
+        # return HttpResponseRedirect('measurements/main.html')     
+
+        # return render(request, 'measurements/main.html', {'map': m})
+
         # return render(request, 'measurements/main.html')  
         
         # return HttpResponse(request) 
@@ -112,13 +120,13 @@ def calculate_distance_view(request):
     m = m._repr_html_()
 
     context = {
-        'name': name,
-        'review': review,
-        'state': state,
-        'map': m,
-        'castles': country_coor_lat,
+        # 'name': name,
+        # 'review': review,
+        # 'state': state,
+        # 'map': m,
+        # 'castles': country_coor_lat,
         # 'ops' : border_objects
         # 'name': requested_id
     }
     
-    return render(request, 'measurements/main.html', context)
+    return render(request, 'measurements/main.html', {'map': m})
