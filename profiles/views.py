@@ -21,6 +21,44 @@ from measurements.models import Locations
 User = get_user_model()
 
 
+def search(request):
+    if request.method == 'GET':
+        try:
+            q = request.GET.get('q')
+        except:
+            q = None
+        if q:
+            try:
+                users = User.objects.get(username=q)
+            except:
+                users = None
+            if users:
+                locations = Locations.objects.filter(user=users)
+                follow = Profile.followers.through.objects.filter(profile_id=users.id).count()
+                location_count = 0
+                review_count = 0
+                for location in locations:
+                    if location.user_id == users.id:
+                        location_count += 1
+                        if location.review:
+                            review_count += 1
+
+                context = {'users': users,
+                           'locations': locations,
+                           'location_count': location_count,
+                           'review_count': review_count,
+                           'follow': follow
+                           }
+                template = 'profiles/results.html'
+            else:
+                context = {'q': q}
+                template = 'profiles/error_search.html'
+        else:
+            context = {}
+            template = 'home.html'
+        return render(request, template, context)
+
+
 def castle_review(request):
     user = User.objects.get(id=request.user.id)
     locations = Locations.objects.filter(user=user)

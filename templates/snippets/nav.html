@@ -1,3 +1,29 @@
+<style>
+    [id="searching_box"] {
+        width: 130px;
+        height: 30px;
+        position: relative;
+        top: 7px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+        left: 30px;
+    }
+
+    /* When the input field gets focus, change its width to 100% */
+    [id="searching_box"]:focus {
+        width: 200px;
+    }
+    [id="sendquestion"]{
+        position: relative;
+        height: 30px;
+        left: 15px;
+        top: 5.5px
+    }
+    [id="sendquestion"]:focus {
+        width: 200px;
+    }
+</style>
+
 <nav class="bg-yellow-500">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
@@ -100,6 +126,15 @@
               style="text-decoration:none;"
               >Contact</a
             >
+                  <form class="d-flex" method="get" action="/s/">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search User or Castle" aria-label="Search">
+
+                  </form>
+
+
+              </form>
+
+
           </div>
         </div>
       </div>

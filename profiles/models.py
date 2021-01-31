@@ -27,7 +27,7 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
-    # following = models.ManyToManyField(User, related_name='following', blank=True)
+    following = models.ManyToManyField(User, related_name='following', blank=True)
     activation_key = models.CharField(max_length=120, blank=True, null=True)
     activated = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -45,9 +45,8 @@ class Profile(models.Model):
     email_when_someone_fallow = models.BooleanField(default=False)
     phone = models.CharField(max_length=100, blank=True)
     website = models.CharField(max_length=100, blank=True)
-    # last_login = models.DateTimeField(max_length=30, blank=True, default=str(datetime.now()))
 
-        # datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
+    # last_login = models.DateTimeField(max_length=30, blank=True, default=str(datetime.now()))
 
     def __str__(self):
         return self.user.username
@@ -74,7 +73,6 @@ class Profile(models.Model):
             # )
             sent_mail = False
             return sent_mail
-
 
 #
 # def post_save_user_reciever(sender, instance, created, *args, **kwargs):
