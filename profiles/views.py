@@ -21,6 +21,29 @@ from measurements.models import Locations
 User = get_user_model()
 
 
+def load_user_profile(request):
+    if request.method == 'GET':
+        q = request.GET.get('u')
+        users = User.objects.get(username=q)
+        locations = Locations.objects.filter(user=users)
+        follow = Profile.followers.through.objects.filter(profile_id=users.id).count()
+        follows = Profile.following.through.objects.filter(profile_id=users.id).count()
+        review_count = 0
+        for location in locations:
+            if location.review:
+                review_count += 1
+
+        context = {'users': users,
+                   'locations': locations,
+                   'location_count': locations.count(),
+                   'review_count': review_count,
+                   'follow': follow,
+                   'follows': follows
+                   }
+        template = 'profiles/users_profile.html'
+        return render(request, template, context)
+
+
 def search(request):
     if request.method == 'GET':
         try:
@@ -33,22 +56,8 @@ def search(request):
             except:
                 users = None
             if users:
-                locations = Locations.objects.filter(user=users)
-                follow = Profile.followers.through.objects.filter(profile_id=users.id).count()
-                location_count = 0
-                review_count = 0
-                for location in locations:
-                    if location.user_id == users.id:
-                        location_count += 1
-                        if location.review:
-                            review_count += 1
+                context = {'users': users}
 
-                context = {'users': users,
-                           'locations': locations,
-                           'location_count': location_count,
-                           'review_count': review_count,
-                           'follow': follow
-                           }
                 template = 'profiles/results.html'
             else:
                 context = {'q': q}
