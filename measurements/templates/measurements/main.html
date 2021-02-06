@@ -23,6 +23,9 @@
         $('#castle-name').text('');
         $('#castle-type').text('');
         $('#castle-website').text('');
+        $(`#castle-photo-1 > img`).attr("src", "");
+        $(`#castle-photo-2 > img`).attr("src", "");
+        $(`#castle-photo-3 > img`).attr("src", "");
         $('input[name="current-state"]').prop('checked', false);
         $('#review').val('');
   };
@@ -48,6 +51,14 @@
         success: function (resp) {
           cleanInfo();
           $('#castle-name').text(resp.name);
+          const requestName = imageName(resp.name);
+          const imagesRequest = settings(requestName);
+            $.ajax(imagesRequest).done(function (response) {
+                //console.log(response);
+                response.value.map((val, index) => {
+                  $(`#castle-photo-${index + 1} > img`).attr("src", val.url);
+                });
+              });
           $('#castle-type').text(resp.castle_type);
           $('#castle-website').text(resp.website);
           $('.infobox').show()
@@ -55,6 +66,12 @@
       });
     }
   });
+
+  imageName = name => {
+    let flatName = name.toLowerCase();
+    let readyName = flatName.split(' ').join('%20');
+    return readyName;
+  };
 
   function showReviewBox() {
     $('#review-area').show()
@@ -94,6 +111,19 @@
         },
       });
   });
+
+  settings = requestName => ({
+    "async": true,
+    "crossDomain": true,
+    "url": `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q=${requestName}&pageNumber=1&pageSize=3&autoCorrect=false`,
+    "method": "GET",
+    "headers": {
+      "x-rapidapi-key": "1ff753a499msh0441b2f7979f213p1a0139jsnb9619fbea5ea",
+      "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com"
+    }
+    
+  });
+
 </script>
 <script src="../static/js/map.js"></script>
 {% endblock content %}
