@@ -16,7 +16,7 @@ from profiles.models import Profile
 def calculate_distance_view(request):
     # initial values
     nominatim = Nominatim()
-
+    global castle_ide
     #areaId = nominatim.query('poland').areaId()
 
     overpass = Overpass()
@@ -40,10 +40,9 @@ def calculate_distance_view(request):
     castle_query = overpassQueryBuilder(area=areaId, elementType='node', selector='castle_type', out='body')
     castle_objects = overpass.query(castle_query)
     castle_list = castle_objects.elements()
-    castle_infos = []
-    for castle in castle_list:
-        castle_infos.append(castle.tags())
-
+    # castle_infos = []
+    # for castle in castle_list:
+    #     castle_infos.append(castle.tags())
 
     # initail folium map
     m = folium.Map(location=[country_coor_lat, country_coor_lon], zoom_start=6)
@@ -73,8 +72,8 @@ def calculate_distance_view(request):
 
 
     if request.method == 'GET' and request.is_ajax():
-        castle_id = request.GET.get('castle_id')
-        castle_data = api.query(f'node/{castle_id}')
+        castle_ide = request.GET.get('castle_id')
+        castle_data = api.query(f'node/{castle_ide}')
         castle_details = castle_data.tags()
 
 
@@ -98,8 +97,9 @@ def calculate_distance_view(request):
         review = request.POST.get('review')
         state = request.POST.get('state')
         user = request.user
+        ide = castle_ide
         form = LocationsModelForm()
-        form.save(user, castleName, review, state)
+        form.save(user, castleName, review, state, ide)
 
         folium.Marker([52.352, 6.22], tooltip='Your Location', popup=location,
                       icon=folium.Icon(color='green', icon='home', prefix='fa')).add_to(m)  

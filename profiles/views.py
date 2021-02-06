@@ -10,8 +10,9 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView, DetailView, View
 from django.shortcuts import render, redirect
-# Create your views here.
 from django.contrib import messages
+import folium
+from OSMPythonTools.api import Api
 
 from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
 # Updatelast_login
@@ -19,7 +20,6 @@ from .models import Profile
 from measurements.models import Locations
 
 User = get_user_model()
-
 
 def castle_review(request):
     user = User.objects.get(id=request.user.id)
@@ -32,17 +32,32 @@ def castle_review(request):
 
 
 def user_profile(request):
+    api = Api()
+    m = folium.Map()
+
+
     user = User.objects.get(id=request.user.id)
     locations = Locations.objects.filter(user=user)
     locations_dict = []
     for location in locations:
         locations_dict.append((location.name, location.review))
+        castle_data = api.query(f'node/{location.ide}')
+        print(location.state)
+        if location.state == 'Wishlist':
+            folium.Marker([castle_data.lat(), castle_data.lon()], tooltip=location.name,
+                    icon=folium.Icon(color='lightblue', icon='fort-awesome', prefix='fa')).add_to(m)
+        else:
+            folium.Marker([castle_data.lat(), castle_data.lon()], tooltip=location.name,
+                    icon=folium.Icon(color='orange', icon='fort-awesome', prefix='fa')).add_to(m)
 
-    review_form = {
+    m = m._repr_html_()
+
+    context = {
         'review': locations,
+        'map': m,
     }
 
-    return render(request, 'profiles/user_profile.html', review_form)
+    return render(request, 'profiles/user_profile.html', context)
 
 
 @login_required()
