@@ -22,8 +22,6 @@ from .forms import ContactForm
 from profiles.models import Profile
 
 
-
-
 def contactView(request):
     if request.method == 'GET':
         form = ContactForm()
@@ -44,7 +42,6 @@ def contactView(request):
 
 def successView(request):
     messages.success(request, 'Success! Thank you for your message.')
-
 
 
 class EmailThread(threading.Thread):
@@ -74,11 +71,11 @@ class RequestPasswordResetEmail(View):
 
         current_site = get_current_site(request)
         profile_user = Profile.objects.filter(email=email)
-        user = User.objects.filter(username=str(Profile.objects.filter(email=email)[0].user))
-
+        # user = User.objects.filter(username=str(Profile.objects.filter(email=email)[0].user))
+        user = User.objects.filter(email=email)
         if user.exists():
             email_subject = '[Reset your Password]'
-            message = render_to_string('reset_mail.html',
+            message = render_to_string('mail/reset_mail.html',
                                        {
                                            'domain': current_site.domain,
                                            'uid': urlsafe_base64_encode(force_bytes(user[0].pk)),
@@ -147,7 +144,7 @@ class SetNewPasswordView(View):
             if not PasswordResetTokenGenerator().check_token(user, token):
                 messages.info(
                     request, 'Password reset link, is invalid, please request a new one')
-                return render(request, 'reset_email.html')
+                return render(request, 'small_change_password_form.html')
 
         except DjangoUnicodeDecodeError as identifier:
             messages.success(
@@ -174,8 +171,8 @@ class SetNewPasswordView(View):
                                  'passwords don`t match')
             context['has_error'] = True
 
-        if context['has_error'] == True:
-            return render(request, 'auth/set-new-password.html', context)
+        if context['has_error']:
+            return render(request, 'mail/reset_pass.html', context)
 
         try:
             user_id = force_text(urlsafe_base64_decode(uidb64))
@@ -191,6 +188,6 @@ class SetNewPasswordView(View):
 
         except DjangoUnicodeDecodeError as identifier:
             messages.error(request, 'Something went wrong')
-            return render(request, 'auth/set-new-password.html', context)
+            return render(request, 'mail/reset_pass.html', context)
 
         # return render(request, 'auth/set-new-password.html', context)

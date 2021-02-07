@@ -7,8 +7,11 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .utils import code_generator
 from django_countries.fields import CountryField
+from django.contrib.auth import get_user_model
+
 
 User = settings.AUTH_USER_MODEL
+# User = get_user_model()
 
 
 class ProfileManager(models.Manager):
@@ -33,12 +36,14 @@ class Profile(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=20, null=True)
-    email = models.CharField(max_length=30, null=True)
+
+    """ Model need to be rebuild. Need to be dropped columns duplicated from User model """
+
+    # email = models.CharField(max_length=30, null=True)
     location = models.CharField(max_length=30, null=True)
-    # objects = ProfileManager()
     image = models.FileField(default='static/avatar1.png', upload_to='profile_pics')
     birthday = models.CharField(max_length=30, blank=True)
-    country = CountryField(default='')
+    # country = CountryField(default='')
     where_do_you_live = models.CharField(max_length=100, blank=True)
     email_when_someone_comment = models.BooleanField(default=False)
     email_when_someone_answer = models.BooleanField(default=False)
@@ -46,7 +51,6 @@ class Profile(models.Model):
     phone = models.CharField(max_length=100, blank=True)
     website = models.CharField(max_length=100, blank=True)
 
-    # last_login = models.DateTimeField(max_length=30, blank=True, default=str(datetime.now()))
 
     def __str__(self):
         return self.user.username

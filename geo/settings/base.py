@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'mail',
     'measurements',
     'profiles',
-
     'crispy_forms',
 ]
 

@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model, authenticate, login, update_session_auth_hash
@@ -13,7 +11,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.contrib import messages
 
-from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
+from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry, \
+    UserEmailChange
 # Updatelast_login
 from .models import Profile
 from measurements.models import Locations
@@ -52,15 +51,15 @@ def search(request):
             q = None
         if q:
             try:
-                users = User.objects.get(username=q)
+                search_result = Profile.objects.filter(user__username__icontains=q)
             except:
-                users = None
-            if users:
-                context = {'users': users}
+                search_result = None
+            if search_result:
+                context = {'search_result': search_result}
 
                 template = 'profiles/results.html'
             else:
-                context = {'q': q}
+                context = {'search_result': search_result}
                 template = 'profiles/error_search.html'
         else:
             context = {}
@@ -84,8 +83,17 @@ def user_profile(request):
     locations_dict = []
     for location in locations:
         locations_dict.append((location.name, location.review))
-
+    follow = Profile.followers.through.objects.filter(profile_id=user.id).count()
+    follows = Profile.following.through.objects.filter(profile_id=user.id).count()
+    review_count = 0
+    for location in locations:
+        if location.review:
+            review_count += 1
     review_form = {
+        'review_count': review_count,
+        'location_count': locations.count(),
+        'follow': follow,
+        'follows': follows,
         'review': locations,
     }
 
@@ -119,7 +127,8 @@ def account_settings(request):
 
         u_form = UserUpdateForm(request.POST, instance=request.user.profile)
         p_form = UserAvatar(request.POST, request.FILES, instance=request.user.profile)
-        if u_form.is_valid() and p_form.is_valid():
+        email_form = UserEmailChange(request.POST, instance=request.user)
+        if u_form.is_valid() and p_form.is_valid() and email_form.is_valid():
             data = request.POST.copy()
             country = request.POST.get('country')
             data['where_do_you_live'] = country
@@ -128,18 +137,20 @@ def account_settings(request):
                 new_form.save()
             u_form.save()
             p_form.save()
+            email_form.save()
         else:
-            messages.info(request, 'Not valid')
+            messages.info(request, 'Data is not valid')
         messages.success(request, 'Your account has been updated')
         return redirect(request.path_info)
     else:
         # u_form = UserUpdateForm(instance=request.user)
         p_form = UserAvatar(instance=request.user.profile)
         user = User.objects.get(id=request.user.id)
+        email_form = UserEmailChange(initial={'email': user.email})
         profile = Profile.objects.filter(user=user).get()
         country_form = UpdateCountry(instance=request.user.profile,
                                      initial={'where_do_you_live': profile.where_do_you_live})
-        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email,
+        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name,
                                                                 'birthday': profile.birthday,
                                                                 'country': profile.where_do_you_live,
                                                                 'email_when_someone_comment': profile.email_when_someone_comment,
@@ -152,6 +163,7 @@ def account_settings(request):
         context = {
             'u_form': u_form,
             'p_form': p_form,
+            'email_form': email_form,
             'country_form': country_form,
         }
 

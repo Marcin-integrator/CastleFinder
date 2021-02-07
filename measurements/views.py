@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 # from .models import Locations
@@ -17,7 +18,7 @@ def calculate_distance_view(request):
     # initial values
     nominatim = Nominatim()
 
-    #areaId = nominatim.query('poland').areaId()
+    # areaId = nominatim.query('poland').areaId()
 
     overpass = Overpass()
     api = Api()
@@ -27,14 +28,12 @@ def calculate_distance_view(request):
 
     country = nominatim.query('germany')
 
-
-    locator = Photon() #(user_agent='martin_jr8')
+    locator = Photon()  # (user_agent='martin_jr8')
     areaId = country.areaId()
     names_query = country.toJSON()
     country_details = names_query[0]
     country_coor_lat = country_details["lat"]
     country_coor_lon = country_details["lon"]
-
 
     # castles location query
     castle_query = overpassQueryBuilder(area=areaId, elementType='node', selector='castle_type', out='body')
@@ -43,7 +42,6 @@ def calculate_distance_view(request):
     castle_infos = []
     for castle in castle_list:
         castle_infos.append(castle.tags())
-
 
     # initail folium map
     m = folium.Map(location=[country_coor_lat, country_coor_lon], zoom_start=6)
@@ -56,9 +54,8 @@ def calculate_distance_view(request):
             continue
         else:
             folium.Marker([castle_loc.lat(), castle_loc.lon()], tooltip=castle_name,
-                           popup=folium.Popup(popup_box(info_dict.get('name'), castle_id), max_width=500),
-                           icon=folium.Icon(color='purple', icon='fort-awesome', prefix='fa')).add_to(m)
-
+                          popup=folium.Popup(popup_box(info_dict.get('name'), castle_id), max_width=500),
+                          icon=folium.Icon(color='purple', icon='fort-awesome', prefix='fa')).add_to(m)
 
     if request.user.is_authenticated:
         user = Profile.objects.get(user=request.user)
@@ -71,12 +68,10 @@ def calculate_distance_view(request):
         folium.Marker([l_lat, l_lon], tooltip='Your Location', popup=location,
                       icon=folium.Icon(color='blue', icon='home', prefix='fa')).add_to(m)
 
-
     if request.method == 'GET' and request.is_ajax():
         castle_id = request.GET.get('castle_id')
         castle_data = api.query(f'node/{castle_id}')
         castle_details = castle_data.tags()
-
 
         # if request.user.is_authenticated and user.location != None:
         #     castle_lat = castle_data.lat()
@@ -85,13 +80,11 @@ def calculate_distance_view(request):
         #     distance = round(geodesic(loc_point, castle_point).km, 2)
         #     castle_details["distance"] = distance
 
-            # line = folium.PolyLine(locations=[loc_point, castle_point], weight=2, color='blue')
-            # m.add_child(line)
-            # m = m._repr_html_()
+        # line = folium.PolyLine(locations=[loc_point, castle_point], weight=2, color='blue')
+        # m.add_child(line)
+        # m = m._repr_html_()
 
-
-        return HttpResponse(json.dumps(castle_details), content_type="application/json") 
-
+        return HttpResponse(json.dumps(castle_details), content_type="application/json")
 
     if request.user.is_authenticated and request.method == 'POST' and request.is_ajax():
         castleName = request.POST.get('castleName')
@@ -102,7 +95,8 @@ def calculate_distance_view(request):
         form.save(user, castleName, review, state)
 
         folium.Marker([52.352, 6.22], tooltip='Your Location', popup=location,
-                      icon=folium.Icon(color='green', icon='home', prefix='fa')).add_to(m)  
+                      icon=folium.Icon(color='green', icon='home', prefix='fa')).add_to(m)
+        messages.info(request, 'success. Review saved')
 
         # m = m._repr_html_()  
 
@@ -113,9 +107,8 @@ def calculate_distance_view(request):
         # return render(request, 'measurements/main.html', {'map': m})
 
         # return render(request, 'measurements/main.html')  
-        
+
         # return HttpResponse(request) 
-    
 
     m = m._repr_html_()
 
@@ -128,5 +121,5 @@ def calculate_distance_view(request):
         # 'ops' : border_objects
         # 'name': requested_id
     }
-    
+
     return render(request, 'measurements/main.html', {'map': m})
