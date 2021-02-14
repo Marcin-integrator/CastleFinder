@@ -57,18 +57,18 @@
                             <div class="col-md-12 col-sm-12 user-detail-section2 pull-left">
                             <div class="border"></div>
                                 <p>FOLLOWER</p>
-                                <span>320</span>
+                                <span>{{ follow }}</span>
                             </div>
                             <div class="col-md-12 col-sm-12 user-detail-section2 pull-right">
                                 <div class="border"></div>
                                 <p>FOLLOWING</p>
-                                <span>147</span>
+                                <span>{{ follows }}</span>
                             </div>
                         </div>
                         <div class="col-md-12 user-detail-section2">
                             <div class="border"></div>
                             <p>PERFORMANCE</p>
-                            <span>56 <small>and 42 review</small></span>
+                            <span>{{ location_count }}<small> visited and </small> {{ review_count }} <small> reviews</small></span>
                         </div>
                     </div>
                 </div>
@@ -100,36 +100,51 @@
                                                     <div class="card-body text-center">
                                                         <h4 class="card-title">Latest Comments</h4>
                                                     </div>
-{#                                                    {{ review }}#}
+                                                <form method="post" enctype="multipart/form-data" href="{% url 'profiles:your_profile' %}">
+                                                    {% csrf_token %}
                                                     {% for location in review %}
-                                                        {% if location.review is not None %}
 
+                                                          <!-- Its not a good solution, becouse there should be another template render, but still good enough -->
+
+                                                        <label>
+                                                            <input style="size: 1px; display: None" type="hidden" value="{{ location.id }}" id="loc{{ location.id }}" disabled name="loc_id">
+                                                        </label>
                                                         <div class="comment-widgets">
 
                                                             <div class="d-flex flex-row comment-row m-t-0" id='comments'>
                                                                 <div class="p-2">
-                                                                    {{ location.name }}
-
+                                                                        {{ location.name }}
                                                                     <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/KB_Zamek_Krzy%C5%BCacki_w_Bytowie.jpg" alt="user" width="100" class=""></div>
                                                                 <div class="comment-text w-100  container-fluid">
 
                                                                     <h6 class="font-medium"></h6>
-                                                                    <span class="m-b-15 d-block" style="position: center">{{ location.review }}</span>
-                                                                    <div class="comment-footer position-relative fixed-bottom" style="top: 30px">
-                                                                        <span class="text-muted float-right">{{ location.created }}</span>
-                                                                        <div class="container-fluid col-md-6 position-relative fixed-bottom">
-                                                                        <button type="button" class="btn btn-cyan btn-sm " style="position: center">Edit</button>
-                                                                        <button type="button" class="btn btn-success btn-sm">Publish</button>
-                                                                        <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                                                                    </div>
-                                                                    </div>
+                                                                                <div>
+                                                                                    <label>
+                                                                                    </label>
+                                                                                    <span class="m-b-15 d-block" style="position: center">
+                                                                                        <label>
+                                                                                            <input type="text" value="{{ location.review }}" id="edit{{ location.id }}" disabled name="labelowski">
+                                                                                        </label>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="comment-footer position-relative fixed-bottom" style="top: 30px">
+                                                                                    <span class="text-muted float-right">{{ location.created }}</span>
+                                                                                    <div class="container-fluid col-md-6 position-relative fixed-bottom">
+                                                                                        <div id="edit">
+                                                                                            <button type="button" class="btn btn-cyan btn-sm " style="position: center" id="edit-button"
+                                                                                                    onclick="document.getElementById('edit{{ location.id }}').removeAttribute('disabled');document.getElementById('loc{{ location.id }}').removeAttribute('disabled')">Edit</button>
+                                                                                            <button type="submit" class="btn btn-success btn-sm" id="end-editing"
+                                                                                                    onclick="document.getElementById('edit{{ location.id }}').setAttribute(disalbed = 'disabled');document.getElementById('loc{{ location.id }}').removeAttribute('disabled') ">Done!</button>
+                                                                                            <button type="submit" href="" id="delete_but{{ location.id }}" class="btn btn-danger btn-sm" name='delete_but' onclick="document.getElementById('delete_but{{ location.id }}').setAttribute(value='deleting{{ location.id }}');">Delete</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                 </div>
                                                             <br>
-    {#                                                                    {% endfor %}#}
-    {#                                                                {% endfor %}#}
+                                                            </div>
                                                         </div>
-                                                        {% endif %}
-                                                        {% endfor %}
+                                                    {% endfor %}
+                                                </form>
 
 
 
@@ -164,5 +179,35 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function click_btn(){
+        const get_id = document.getElementById('delete_but{{ location.id }}')
+        get_id.setAttribute(name='delete_but');
+        get_id.setAttribute(value='del')
+    }
+
+</script>
+
+{#<script>#}
+{#    const paragraph = document.getElementById("edit");#}
+{#    const edit_button = document.getElementById("edit-button");#}
+{#    const end_button = document.getElementById("end-editing");#}
+{##}
+    {#const paragraph = document.querySelectorAll('[id^="edit"]');#}
+    {#const edit_button = document.querySelectorAll('[id^="edit-button"]');#}
+    {#const end_button = document.querySelectorAll('[id^="end-editing"]');#}
+{##}
+{#    edit_button.addEventListener("click", function() {#}
+{#      paragraph.contentEditable = true;#}
+{##}
+{#    } );#}
+{##}
+{#    end_button.addEventListener("click", function() {#}
+{#      paragraph.contentEditable = false;#}
+{##}
+{#    } )#}
+{#</script>#}
 </body>
 {% endblock content %}}

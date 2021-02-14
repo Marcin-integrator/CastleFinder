@@ -41,6 +41,8 @@ urlpatterns = [
     path('account_settings/', include('profiles.urls', namespace='account_settings')),
     path('change_password/', user_views.change_password, name='change_password'),
     path('', include('mail.urls')),
+    re_path(r's/$', user_views.search, name='search'),
+    re_path(r'user/$', user_views.load_user_profile, name='users_profile')
 
 ]
 

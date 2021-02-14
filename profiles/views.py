@@ -1,4 +1,4 @@
-import datetime
+import re
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,12 +14,62 @@ from django.contrib import messages
 import folium
 from OSMPythonTools.api import Api
 
-from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry
+from .forms import RegisterForm, UserAvatar, UserUpdateForm, UserRegisterForm, UserLoginForm, UpdateCountry, \
+    UserEmailChange
 # Updatelast_login
 from .models import Profile
 from measurements.models import Locations
 
 User = get_user_model()
+
+
+
+def load_user_profile(request):
+    if request.method == 'GET':
+        q = request.GET.get('u')
+        users = User.objects.get(username=q)
+        locations = Locations.objects.filter(user=users)
+        follow = Profile.followers.through.objects.filter(profile_id=users.id).count()
+        follows = Profile.following.through.objects.filter(profile_id=users.id).count()
+        review_count = 0
+        for location in locations:
+            if location.review:
+                review_count += 1
+
+        context = {'users': users,
+                   'locations': locations,
+                   'location_count': locations.count(),
+                   'review_count': review_count,
+                   'follow': follow,
+                   'follows': follows
+                   }
+        template = 'profiles/users_profile.html'
+        return render(request, template, context)
+
+
+def search(request):
+    if request.method == 'GET':
+        try:
+            q = request.GET.get('q')
+        except:
+            q = None
+        if q:
+            try:
+                search_result = Profile.objects.filter(user__username__icontains=q)
+            except:
+                search_result = None
+            if search_result:
+                context = {'search_result': search_result}
+
+                template = 'profiles/results.html'
+            else:
+                context = {'search_result': search_result}
+                template = 'profiles/error_search.html'
+        else:
+            context = {}
+            template = 'home.html'
+        return render(request, template, context)
+
 
 def castle_review(request):
     user = User.objects.get(id=request.user.id)
@@ -32,14 +82,44 @@ def castle_review(request):
 
 
 def user_profile(request):
+
+    if request.method == 'POST':
+        review = request.POST.get('labelowski')
+        loc_id = request.POST.get('loc_id')
+        delete_but = request.POST.get('delete_but')
+        if 'deleting' in delete_but:
+            loc_id = re.sub(r'(deleting)(\d+)', r'\2', delete_but)
+            locations = Locations.objects.get(id=int(loc_id))
+            locations.review = ''
+            locations.save(update_fields=['review'])
+        if review and loc_id:
+            locations = Locations.objects.get(id=int(loc_id))
+            locations.review = review
+            locations.save(update_fields=['review'])
+
     api = Api()
     m = folium.Map()
 
 
     user = User.objects.get(id=request.user.id)
     locations = Locations.objects.filter(user=user)
-    locations_dict = []
+    # locations_dict = []
+    # for location in locations:
+    #     locations_dict.append((location.name, location.review))
+    follow = Profile.followers.through.objects.filter(profile_id=user.id).count()
+    follows = Profile.following.through.objects.filter(profile_id=user.id).count()
+    review_count = 0
     for location in locations:
+        if location.review:
+            review_count += 1
+    review_form = {
+            'review_count': review_count,
+            'location_count': locations.count(),
+            'follow': follow,
+            'follows': follows,
+            'review': locations,
+        }
+
         locations_dict.append((location.name, location.review))
         castle_data = api.query(f'node/{location.ide}')
         print(location.state)
@@ -87,7 +167,8 @@ def account_settings(request):
 
         u_form = UserUpdateForm(request.POST, instance=request.user.profile)
         p_form = UserAvatar(request.POST, request.FILES, instance=request.user.profile)
-        if u_form.is_valid() and p_form.is_valid():
+        email_form = UserEmailChange(request.POST, instance=request.user)
+        if u_form.is_valid() and p_form.is_valid() and email_form.is_valid():
             data = request.POST.copy()
             country = request.POST.get('country')
             data['where_do_you_live'] = country
@@ -96,18 +177,20 @@ def account_settings(request):
                 new_form.save()
             u_form.save()
             p_form.save()
+            email_form.save()
         else:
-            messages.info(request, 'Not valid')
+            messages.info(request, 'Data is not valid')
         messages.success(request, 'Your account has been updated')
         return redirect(request.path_info)
     else:
         # u_form = UserUpdateForm(instance=request.user)
         p_form = UserAvatar(instance=request.user.profile)
         user = User.objects.get(id=request.user.id)
+        email_form = UserEmailChange(initial={'email': user.email})
         profile = Profile.objects.filter(user=user).get()
         country_form = UpdateCountry(instance=request.user.profile,
                                      initial={'where_do_you_live': profile.where_do_you_live})
-        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name, 'email': profile.email,
+        u_form = UserUpdateForm(instance=request.user, initial={"name": profile.name,
                                                                 'birthday': profile.birthday,
                                                                 'country': profile.where_do_you_live,
                                                                 'email_when_someone_comment': profile.email_when_someone_comment,
@@ -120,6 +203,7 @@ def account_settings(request):
         context = {
             'u_form': u_form,
             'p_form': p_form,
+            'email_form': email_form,
             'country_form': country_form,
         }
 

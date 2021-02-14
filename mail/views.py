@@ -2,7 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail, BadHeaderError, EmailMessage
+from django.core.mail import BadHeaderError, EmailMessage
 from validate_email import validate_email
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -21,30 +21,43 @@ from .utils import generate_token
 from .forms import ContactForm
 from profiles.models import Profile
 
+from geo.settings.local_hidden_variables import DEFAULT_FROM_MAIL, MAIL_FROM
 
+from django.conf import settings
+
+
+if "mailer" in settings.INSTALLED_APPS:
+    from mailer import send_mail
+else:
+    from django.core.mail import send_mail
 
 
 def contactView(request):
     if request.method == 'GET':
         form = ContactForm()
+        return render(request, "contact_form.html", {'form': form})
     else:
-        form = ContactForm(request.POST)
+        if request.user.is_authenticated:
+            post = request.POST.copy()
+            post['from_email'] = request.user.email
+        else:
+            post = request.POST.copy()
+        form = ContactForm(post)
         if form.is_valid():
-            subject = form.cleaned_data['subject']
             from_email = form.cleaned_data['from_email']
             message = form.cleaned_data['message']
+            # subject = f"{[from_email]} { form.cleaned_data['subject']}"
+            subject = form.cleaned_data['subject']
             try:
-                send_mail(subject, message, from_email, ['janou@interia.pl'])
+                send_mail(subject, message, from_email, [DEFAULT_FROM_MAIL], fail_silently=False)
+                messages.success(request, 'Success! Thank you for your message.')
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('contact')
-    # messages.success(request, 'Success! Thank you for your message.')
-    return render(request, "contact_form.html", {'form': form})
 
 
 def successView(request):
     messages.success(request, 'Success! Thank you for your message.')
-
 
 
 class EmailThread(threading.Thread):
@@ -74,18 +87,18 @@ class RequestPasswordResetEmail(View):
 
         current_site = get_current_site(request)
         profile_user = Profile.objects.filter(email=email)
-        user = User.objects.filter(username=str(Profile.objects.filter(email=email)[0].user))
-
+        # user = User.objects.filter(username=str(Profile.objects.filter(email=email)[0].user))
+        user = User.objects.filter(email=email)
         if user.exists():
             email_subject = '[Reset your Password]'
-            message = render_to_string('reset_mail.html',
+            message = render_to_string('mail/reset_mail.html',
                                        {
                                            'domain': current_site.domain,
                                            'uid': urlsafe_base64_encode(force_bytes(user[0].pk)),
                                            'token': PasswordResetTokenGenerator().make_token(user[0])
                                        }
                                        )
-            MAIL_FROM = 'janouinteria@gmail.com'
+
 
             email_message = EmailMessage(
                 email_subject,
@@ -94,7 +107,7 @@ class RequestPasswordResetEmail(View):
                 [email]
             )
 
-            # send_mail(email_subject, message, 'janouinteria@gmail.com', [email])
+            # send_mail(email_subject, message, MAIL_FROM, [email])
             EmailThread(email_message).start()
 
             # email_contents = {
@@ -147,7 +160,7 @@ class SetNewPasswordView(View):
             if not PasswordResetTokenGenerator().check_token(user, token):
                 messages.info(
                     request, 'Password reset link, is invalid, please request a new one')
-                return render(request, 'reset_email.html')
+                return render(request, 'small_change_password_form.html')
 
         except DjangoUnicodeDecodeError as identifier:
             messages.success(
@@ -174,8 +187,8 @@ class SetNewPasswordView(View):
                                  'passwords don`t match')
             context['has_error'] = True
 
-        if context['has_error'] == True:
-            return render(request, 'auth/set-new-password.html', context)
+        if context['has_error']:
+            return render(request, 'mail/reset_pass.html', context)
 
         try:
             user_id = force_text(urlsafe_base64_decode(uidb64))
@@ -191,6 +204,6 @@ class SetNewPasswordView(View):
 
         except DjangoUnicodeDecodeError as identifier:
             messages.error(request, 'Something went wrong')
-            return render(request, 'auth/set-new-password.html', context)
+            return render(request, 'mail/reset_pass.html', context)
 
         # return render(request, 'auth/set-new-password.html', context)

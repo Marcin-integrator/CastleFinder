@@ -113,10 +113,17 @@
               {%  render_field form.subject placeholder="Name" name="name"%}
 {#              {{ form.subject }}#}
           </label>
-          <label id="emailform"><span>Email</span>
-              {% render_field form.from_email name="email" placeholder="Email" %}
-{#              <input name="email" type="email" placeholder="Email" />#}
-          </label>
+                {% if user.is_authenticated %}
+
+                  <label id="emailform"><span>Email</span>
+                      {% render_field form.from_email name="email" value=user.email disabled="disabled" %}
+        {#              <input name="email" type="email" placeholder="Email" />#}
+                  </label>
+                {%  else %}
+                    <label id="emailform"><span>Email</span>
+                      {% render_field form.from_email name="email" placeholder="Email" %}
+                  </label>
+                {% endif %}
           <label id="messageform">
               <span>Message</span>
               {% render_field form.message name="message" placeholder="Message" %}

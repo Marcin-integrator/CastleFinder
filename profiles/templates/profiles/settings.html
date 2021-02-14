@@ -5,7 +5,7 @@
 
 
 {% block content %}
-<meta charset="UTF-8" xmlns="http://www.w3.org/1999/html">
+{#<meta charset="UTF-8" xmlns="http://www.w3.org/1999/html">#}
     <title>Title</title>
         <link rel="stylesheet" href="{% static 'user_settings.css' %}">
         <script type="text/javascript" src="{%  static 'Java_scripts/user_settings.js' %}"></script>
@@ -61,7 +61,7 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label class="form-label">Username</label>
-                      <input type="text" class="form-control mb-1" value='{{ user.username }}'>
+                      <input type="text" class="form-control mb-1" value='{{ user.username }}' disabled="disabled">
                     </div>
                     <div class="form-group">
                       <label class="form-label">Name</label>
@@ -69,11 +69,9 @@
                     </div>
                     <div class="form-group">
                       <label class="form-label">E-mail</label>
-                      {{ u_form.email }}
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Location</label>
-                      {{ u_form.location }}
+                        {% load widget_tweaks %}
+
+                            {% render_field email_form.email type="text" class="form-control mb-1" value='email' %}
                     </div>
                   </div>
 
@@ -151,7 +149,10 @@
 <!--                        <option>Italy</option>-->
                       </select>
                     </div>
-
+                    <div class="form-group">
+                      <label class="form-label">City</label>
+                      {{ u_form.location }}
+                    </div>
 
                   </div>
                   <hr class="border-light m-0" style="color: orange">

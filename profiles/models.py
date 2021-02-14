@@ -7,8 +7,11 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from .utils import code_generator
 from django_countries.fields import CountryField
+from django.contrib.auth import get_user_model
+
 
 User = settings.AUTH_USER_MODEL
+# User = get_user_model()
 
 
 class ProfileManager(models.Manager):
@@ -27,27 +30,27 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     followers = models.ManyToManyField(User, related_name='is_following', blank=True)
-    # following = models.ManyToManyField(User, related_name='following', blank=True)
+    following = models.ManyToManyField(User, related_name='following', blank=True)
     activation_key = models.CharField(max_length=120, blank=True, null=True)
     activated = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=20, null=True)
-    email = models.CharField(max_length=30, null=True)
+
+    """ Model need to be rebuild. Need to be dropped columns duplicated from User model """
+
+    # email = models.CharField(max_length=30, null=True)
     location = models.CharField(max_length=30, null=True)
-    # objects = ProfileManager()
     image = models.FileField(default='static/avatar1.png', upload_to='profile_pics')
     birthday = models.CharField(max_length=30, blank=True)
-    country = CountryField(default='')
+    # country = CountryField(default='')
     where_do_you_live = models.CharField(max_length=100, blank=True)
     email_when_someone_comment = models.BooleanField(default=False)
     email_when_someone_answer = models.BooleanField(default=False)
     email_when_someone_fallow = models.BooleanField(default=False)
     phone = models.CharField(max_length=100, blank=True)
     website = models.CharField(max_length=100, blank=True)
-    # last_login = models.DateTimeField(max_length=30, blank=True, default=str(datetime.now()))
 
-        # datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
 
     def __str__(self):
         return self.user.username
@@ -74,7 +77,6 @@ class Profile(models.Model):
             # )
             sent_mail = False
             return sent_mail
-
 
 #
 # def post_save_user_reciever(sender, instance, created, *args, **kwargs):

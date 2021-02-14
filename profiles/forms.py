@@ -13,8 +13,6 @@ from .models import Profile
 User = get_user_model()
 
 
-
-
 # class ChangePassword(forms.Form):
 #     old_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
 #     new_password = forms.PasswordInput(attrs={'type': "password", 'class': "form-control"})
@@ -88,11 +86,11 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['name', 'email', 'birthday', 'email_when_someone_comment', 'email_when_someone_answer',
+        fields = ['name', 'birthday', 'email_when_someone_comment', 'email_when_someone_answer',
                   'email_when_someone_fallow', 'phone', 'website', 'location']
         widgets = {
             'name': forms.TextInput(attrs={'type': "text", 'class': "form-control"}),
-            'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
+            # 'email': forms.TextInput(attrs={'type': "text", 'class': "form-control mb-1", 'value': 'email'}),
             'birthday': forms.TextInput(attrs={'class': "form-control", 'type': "date", 'name': "dateofbirth",
                                                'id': "dateofbirth"}),
             'email_when_someone_comment': forms.CheckboxInput(attrs={'type': "checkbox",
@@ -114,6 +112,12 @@ class UserAvatar(forms.ModelForm):
         widgets = {
             'image': forms.FileInput(attrs={'type': "file", 'class': "account-settings-fileinput"})
         }
+
+
+class UserEmailChange(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
 
 
 class UserRegisterForm(UserCreationForm):
