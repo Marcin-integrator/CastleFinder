@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model, authenticate, login, update_session_auth_hash
@@ -18,6 +20,7 @@ from .models import Profile
 from measurements.models import Locations
 
 User = get_user_model()
+
 
 
 def load_user_profile(request):
@@ -78,11 +81,24 @@ def castle_review(request):
 
 
 def user_profile(request):
+    if request.method == 'POST':
+        review = request.POST.get('labelowski')
+        loc_id = request.POST.get('loc_id')
+        delete_but = request.POST.get('delete_but')
+        if 'deleting' in delete_but:
+            loc_id = re.sub(r'(deleting)(\d+)', r'\2', delete_but)
+            locations = Locations.objects.get(id=int(loc_id))
+            locations.review = ''
+            locations.save(update_fields=['review'])
+        if review and loc_id:
+            locations = Locations.objects.get(id=int(loc_id))
+            locations.review = review
+            locations.save(update_fields=['review'])
     user = User.objects.get(id=request.user.id)
     locations = Locations.objects.filter(user=user)
-    locations_dict = []
-    for location in locations:
-        locations_dict.append((location.name, location.review))
+    # locations_dict = []
+    # for location in locations:
+    #     locations_dict.append((location.name, location.review))
     follow = Profile.followers.through.objects.filter(profile_id=user.id).count()
     follows = Profile.following.through.objects.filter(profile_id=user.id).count()
     review_count = 0
@@ -90,12 +106,12 @@ def user_profile(request):
         if location.review:
             review_count += 1
     review_form = {
-        'review_count': review_count,
-        'location_count': locations.count(),
-        'follow': follow,
-        'follows': follows,
-        'review': locations,
-    }
+            'review_count': review_count,
+            'location_count': locations.count(),
+            'follow': follow,
+            'follows': follows,
+            'review': locations,
+        }
 
     return render(request, 'profiles/user_profile.html', review_form)
 

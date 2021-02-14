@@ -12,15 +12,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
-from .local_hidden_variables import SEC_KEY, MAIL_FROM, EMAIL_ADMIN_HOST, EMAIL_HOST_SENDGRID_USER, \
-    SENDGRID_API_KEY
-
+from .local_hidden_variables import SEC_KEY, MAIL_FROM, EMAIL_HOST_PASSWORD_WIN, EMAIL_HOST_WIN, EMAIL_PORT_WIN, \
+    EMAIL_HOST_USER_WIN
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -33,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # AUTH_USER_MODEL = 'accounts.profiles.Profile'
 
 # Application definition
@@ -45,7 +42,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,6 +56,7 @@ INSTALLED_APPS = [
     'measurements',
     'profiles',
     'crispy_forms',
+    'mailer'
 ]
 
 NPM_BIN_PATH = '/Program Files/nodejs/node_modules/npm/bin/npm'
@@ -95,7 +92,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'geo.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -105,7 +101,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -161,8 +156,13 @@ LOGIN_REDIRECT_URL = '/'
 
 DEFAULT_FROM_EMAIL = MAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = EMAIL_ADMIN_HOST
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = EMAIL_HOST_SENDGRID_USER
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+# EMAIL_BACKEND = "mailer.backend.DbBackend"
+
+
+"""windows server"""
+
+EMAIL_HOST = EMAIL_HOST_WIN
+EMAIL_PORT = EMAIL_PORT_WIN
+EMAIL_HOST_USER = EMAIL_HOST_USER_WIN
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD_WIN
+# EMAIL_USE_TLS = True

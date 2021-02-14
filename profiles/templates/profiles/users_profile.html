@@ -92,7 +92,7 @@
                                                     </div>
 {#                                                    {{ review }}#}
                                                     {% for location in locations %}
-                                                        {% if location.review is not None %}
+                                                        {% if location.review %}
 
                                                         <div class="comment-widgets">
 
@@ -114,10 +114,11 @@
                                                             <br>
     {#                                                                    {% endfor %}#}
     {#                                                                {% endfor %}#}
+                                                            </div>
                                                         </div>
                                                         {% endif %}
                                                         {% endfor %}
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
