@@ -56,7 +56,6 @@ def contactView(request):
             return redirect('contact')
 
 
-
 def successView(request):
     messages.success(request, 'Success! Thank you for your message.')
 

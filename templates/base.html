@@ -1,22 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-{#    <script>#}
-{#        $(document).ready(function() {#}
-{#            // messages timeout for 10 sec#}
-{#            setTimeout(function() {#}
-{#                $('.message').fadeOut('slow');#}
-{#            }, 2000); // <-- time in milliseconds, 1000 =  1 sec#}
-{##}
-{#            // delete message#}
-{#            $('.del-msg').live('click',function(){#}
-{#                $('.del-msg').parent().attr('style', 'display:none;');#}
-{#            })#}
-{#        });#}
-{#    </script>#}
-
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -31,16 +15,15 @@
     <link rel="stylesheet" href="{% static 'tailwind/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'geo/extras.css' %}" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
     {% include 'snippets/css.html' %}
     <title>Geo | {% block title %}{% endblock title %}</title>
   </head>
   <body class="bg-gray-300">
-    <div>
-    {% include 'snippets/nav.html' %}
-      {% include 'message.html' %}
-
-
-    </div>
+    <div>{% include 'snippets/nav.html' %} {% include 'message.html' %}</div>
     <div class="container">{% block content %} {% endblock content %}</div>
     <!-- Optional JavaScript; choose one of the two! -->
 
